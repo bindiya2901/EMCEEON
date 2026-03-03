@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Level</title>
+  <link rel="stylesheet" href="css/level.css" />
+</head>
+
+<body>
+
+<header class="main-header">
+  <div class="header-left">
+    <img src="assets/college-logo.png" class="logo">
+    <img src="assets/club-logo.png" class="logo">
+  </div>
+
+  <div class="navbar-center">
+    Maze
+  </div>
+
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="maze.html">Maze</a>
+  </nav>
+
+  <!-- PROFILE -->
+  <div class="profile-wrapper hidden" id="profileWrapper">
+    <img id="profilePic" class="profile-pic" />
+
+    <div class="profile-dropdown hidden" id="profileDropdown">
+      <div class="profile-info">
+        <p id="profileName"></p>
+        <p id="profileEmail"></p>
+      </div>
+
+      <button onclick="location.href='leaderboard.html'">
+        🏆 Leaderboard
+      </button>
+
+      <button id="logoutBtn" class="logout-btn">
+        🚪 Logout
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <h2>Select Level</h2>
+
+  <button id="resumeBtn">Resume</button>
+
+  <div id="levels">
+    <button data-level="1"><span class="label">1</span></button>
+    <button data-level="2"><span class="label">2</span></button>
+    <button data-level="3"><span class="label">3</span></button>
+    <button data-level="4"><span class="label">4</span></button>
+    <button data-level="5"><span class="label">5</span></button>
+    <button data-level="6"><span class="label">6</span></button>
+    <button data-level="7"><span class="label">7</span></button>
+    <button data-level="8"><span class="label">8</span></button>
+    <button data-level="9"><span class="label">9</span></button>
+    <button data-level="10"><span class="label">10</span></button>
+    <button data-level="11"><span class="label">11</span></button>
+    <button data-level="12"><span class="label">12</span></button>
+    <button data-level="13"><span class="label">13</span></button>
+    <button data-level="14"><span class="label">14</span></button>
+    <button data-level="15"><span class="label">15</span></button>
+    <button data-level="16"><span class="label">16</span></button>
+    <button data-level="17"><span class="label">17</span></button>
+    <button data-level="18"><span class="label">18</span></button>
+    <button data-level="19"><span class="label">19</span></button>
+    <button data-level="20"><span class="label">20</span></button>
+    <button data-level="21"><span class="label">21</span></button>
+    <button data-level="22"><span class="label">22</span></button>
+    <button data-level="23"><span class="label">23</span></button>
+    <button data-level="24"><span class="label">24</span></button>
+    <button data-level="25"><span class="label">25</span></button>
+    <button data-level="26"><span class="label">26</span></button>
+    <button data-level="27"><span class="label">27</span></button>
+    <button data-level="28"><span class="label">28</span></button>
+    <button data-level="29"><span class="label">29</span></button>
+    <button data-level="30"><span class="label">30</span></button>
+  </div>
+</main>
+
+<footer>
+  Contact Us: emceeonclubepgi@gmail.com
+</footer>
+
+<script>
+  
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Get saved unlocked level (default = 1)
+  let unlockedLevel = Number(localStorage.getItem("unlockedLevel")) || 1;
+
+  // Save current level
+  localStorage.setItem("currentLevel", unlockedLevel);
+
+  // RESUME BUTTON
+  const resumeBtn = document.getElementById("resumeBtn");
+  if (resumeBtn) {
+    resumeBtn.onclick = () => {
+      window.location.href = `levels/level${unlockedLevel}.html`;
+    };
+  }
+
+  // LEVEL BUTTONS
+  const buttons = document.querySelectorAll("#levels button");
+
+  buttons.forEach(btn => {
+    const level = Number(btn.dataset.level);
+
+    // Lock future levels
+    if (level > unlockedLevel) {
+      btn.disabled = true;
+      btn.classList.add("locked");
+    }
+
+    btn.onclick = () => {
+      if (level <= unlockedLevel) {
+        localStorage.setItem("currentLevel", level);
+        window.location.href = `levels/level${level}.html`;
+      }
+    };
+  });
+
+});
+</script>

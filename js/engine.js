@@ -1,11 +1,3 @@
-/* ================= FIREBASE ================= */
-import { db } from "./firebase.js";
-import {
-  doc,
-  updateDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
 /* ================= SAFE UNLOCK FUNCTION ================= */
 async function unlockNextLevel(levelNumber, elapsedTime) {
   const uid = localStorage.getItem("uid");

@@ -1,33 +1,27 @@
-/* ================= SAFE UNLOCK FUNCTION ================= */
+/* ================= SAFE UNLOCK FUNCTION (LOCAL STORAGE VERSION) ================= */
 async function unlockNextLevel(levelNumber, elapsedTime) {
-  const uid = localStorage.getItem("uid");
-  if (!uid) return;
 
-  const ref = doc(db, "users", uid);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) return;
-
-  const data = snap.data();
-  const currentUnlocked = data.unlockedLevel || 1;
-  const updates = {};
+  let unlockedLevel = Number(localStorage.getItem("unlockedLevel")) || 1;
   const nextLevel = levelNumber + 1;
 
-  if (nextLevel > currentUnlocked) {
-    updates.unlockedLevel = nextLevel;
-    localStorage.setItem("currentLevel", nextLevel);
-  } else {
-    localStorage.setItem("currentLevel", currentUnlocked);
+  // Unlock next level
+  if (nextLevel > unlockedLevel) {
+    localStorage.setItem("unlockedLevel", nextLevel);
   }
 
-  const best = data.bestTimes?.[`level${levelNumber}`];
-  if (!best || elapsedTime < best) {
-    updates[`bestTimes.level${levelNumber}`] = elapsedTime;
-  }
+  // Save current level
+  localStorage.setItem("currentLevel", nextLevel);
 
-  if (Object.keys(updates).length > 0) {
-    await updateDoc(ref, updates);
+  // Save best times
+  let bestTimes = JSON.parse(localStorage.getItem("bestTimes")) || {};
+  const currentBest = bestTimes[`level${levelNumber}`];
+
+  if (!currentBest || elapsedTime < currentBest) {
+    bestTimes[`level${levelNumber}`] = elapsedTime;
+    localStorage.setItem("bestTimes", JSON.stringify(bestTimes));
   }
 }
+
 
 /* ================= GAME STATE ================= */
 let GRID, SIZE, startPos, keyPos, doorPos, walls;
@@ -36,6 +30,7 @@ let timeLeft = 180;
 let timerInterval;
 let startTime;
 
+
 /* ================= DOM ================= */
 const grid = document.getElementById("grid");
 const items = document.getElementById("items");
@@ -43,8 +38,10 @@ const timer = document.getElementById("timer");
 const modal = document.getElementById("levelModal");
 const wallOverlay = document.getElementById("wall-overlay");
 
+
 /* ================= START GAME ================= */
 export function startGame(config) {
+
   ({ GRID, SIZE, startPos, keyPos, doorPos, walls } = config);
 
   player = { ...startPos };
@@ -59,14 +56,21 @@ export function startGame(config) {
   timerInterval = setInterval(() => {
     timeLeft--;
     timer.textContent = `Time: ${timeLeft}`;
-    if (timeLeft <= 0) location.reload();
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      location.reload();
+    }
+
   }, 1000);
 
   render();
 }
 
+
 /* ================= RENDER ================= */
 function render() {
+
   grid.innerHTML = "";
 
   grid.style.gridTemplateColumns = `repeat(${GRID}, ${SIZE}px)`;
@@ -95,8 +99,10 @@ function render() {
   drawItem("door", doorPos);
 }
 
+
 /* ================= DRAW ITEM ================= */
 function drawItem(type, pos) {
+
   const el = document.createElement("div");
   el.className = `item ${type}`;
 
@@ -116,12 +122,14 @@ function drawItem(type, pos) {
   `;
 }
 
+
 /* ================= WALL ================= */
 function blocked(r, c, d) {
   return walls.has(`${r},${c}:${d}`);
 }
 
 function blinkWall(r, c, d) {
+
   const w = document.createElement("div");
   w.className = "wall-blink";
   const t = 6;
@@ -135,9 +143,12 @@ function blinkWall(r, c, d) {
   setTimeout(() => w.remove(), 1000);
 }
 
+
 /* ================= CONFETTI ================= */
 function launchConfetti() {
+
   for (let i = 0; i < 80; i++) {
+
     const conf = document.createElement("div");
     conf.className = "confetti";
     document.body.appendChild(conf);
@@ -149,7 +160,8 @@ function launchConfetti() {
   }
 }
 
-/* ================= MOVE PLAYER (ONLY MOVEMENT SYSTEM) ================= */
+
+/* ================= MOVE PLAYER ================= */
 function movePlayer(direction) {
 
   if (!player) return;
@@ -188,6 +200,7 @@ function movePlayer(direction) {
   render();
 
   if (hasKey && nr === doorPos.r && nc === doorPos.c) {
+
     clearInterval(timerInterval);
 
     setTimeout(() => {
@@ -196,6 +209,7 @@ function movePlayer(direction) {
     }, 500);
   }
 }
+
 
 /* ================= CONTROLS ================= */
 
@@ -215,9 +229,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("rightBtn")?.addEventListener("click", () => movePlayer("R"));
 });
 
+
 /* ================= LEVEL COMPLETE ================= */
 document.getElementById("modalOk")?.addEventListener("click", async () => {
+
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
+
   await unlockNextLevel(window.LEVEL_NUMBER, elapsed);
+
   location.href = "../index.html";
 });

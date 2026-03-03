@@ -236,10 +236,28 @@ document.addEventListener("keydown", e => {
 });
 
 /* ================= MOBILE BUTTONS ================= */
-document.getElementById("upBtn")?.addEventListener("click", () => movePlayer("U"));
-document.getElementById("downBtn")?.addEventListener("click", () => movePlayer("D"));
-document.getElementById("leftBtn")?.addEventListener("click", () => movePlayer("L"));
-document.getElementById("rightBtn")?.addEventListener("click", () => movePlayer("R"));
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener("touchstart", e => {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener("touchend", e => {
+
+  let dx = e.changedTouches[0].screenX - touchStartX;
+  let dy = e.changedTouches[0].screenY - touchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 30) movePlayer("R");
+    else if (dx < -30) movePlayer("L");
+  } else {
+    if (dy > 30) movePlayer("D");
+    else if (dy < -30) movePlayer("U");
+  }
+
+});
 
 /* ================= LEVEL COMPLETE ================= */
 document.getElementById("modalOk")?.addEventListener("click", async () => {

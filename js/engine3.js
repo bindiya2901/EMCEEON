@@ -250,5 +250,5 @@ document.getElementById("rightBtn")?.addEventListener("click", () => movePlayer(
 document.getElementById("modalOk")?.addEventListener("click", async () => {
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
   await unlockNextLevel(window.LEVEL_NUMBER, elapsed);
-  location.href = "../maze.html";
+  location.href = "../index.html";
 });

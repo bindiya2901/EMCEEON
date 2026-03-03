@@ -767,3 +767,36 @@ main,
   50% { transform: translateY(-4px); }
   100% { transform: translateY(0px); }
 }
+
+.touch-zone {
+  position: fixed;
+  z-index: 500;
+}
+
+.top-zone {
+  top: 0;
+  left: 25%;
+  width: 50%;
+  height: 30%;
+}
+
+.bottom-zone {
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 30%;
+}
+
+.left-zone {
+  left: 0;
+  top: 30%;
+  width: 30%;
+  height: 40%;
+}
+
+.right-zone {
+  right: 0;
+  top: 30%;
+  width: 30%;
+  height: 40%;
+}

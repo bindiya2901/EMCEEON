@@ -235,27 +235,19 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") movePlayer("R");
 });
 
-/* ================= MOBILE BUTTONS ================= */
-let touchStartX = 0;
-let touchStartY = 0;
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
-  touchStartY = e.changedTouches[0].screenY;
-});
+  document.querySelector(".top-zone")
+    ?.addEventListener("click", () => movePlayer("U"));
 
-document.addEventListener("touchend", e => {
+  document.querySelector(".bottom-zone")
+    ?.addEventListener("click", () => movePlayer("D"));
 
-  let dx = e.changedTouches[0].screenX - touchStartX;
-  let dy = e.changedTouches[0].screenY - touchStartY;
+  document.querySelector(".left-zone")
+    ?.addEventListener("click", () => movePlayer("L"));
 
-  if (Math.abs(dx) > Math.abs(dy)) {
-    if (dx > 30) movePlayer("R");
-    else if (dx < -30) movePlayer("L");
-  } else {
-    if (dy > 30) movePlayer("D");
-    else if (dy < -30) movePlayer("U");
-  }
+  document.querySelector(".right-zone")
+    ?.addEventListener("click", () => movePlayer("R"));
 
 });
 

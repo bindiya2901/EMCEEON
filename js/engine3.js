@@ -226,6 +226,7 @@ function movePlayer(direction) {
 }
 
 /* ================= CONTROLS ================= */
+// Keyboard
 document.addEventListener("keydown", e => {
   if (e.key === "ArrowUp") movePlayer("U");
   if (e.key === "ArrowDown") movePlayer("D");
@@ -233,21 +234,15 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") movePlayer("R");
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// Button Controls
+window.move = function(direction){
 
-  document.querySelector(".top-zone")
-    ?.addEventListener("click", () => movePlayer("U"));
+  if(direction === "up") movePlayer("U");
+  if(direction === "down") movePlayer("D");
+  if(direction === "left") movePlayer("L");
+  if(direction === "right") movePlayer("R");
 
-  document.querySelector(".bottom-zone")
-    ?.addEventListener("click", () => movePlayer("D"));
-
-  document.querySelector(".left-zone")
-    ?.addEventListener("click", () => movePlayer("L"));
-
-  document.querySelector(".right-zone")
-    ?.addEventListener("click", () => movePlayer("R"));
-
-});
+}
 
 /* ================= LEVEL COMPLETE ================= */
 document.getElementById("modalOk")?.addEventListener("click", async () => {

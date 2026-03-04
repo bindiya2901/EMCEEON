@@ -18,10 +18,19 @@
   </div>
 </div>
 
-<div class="touch-zone top-zone"></div>
-<div class="touch-zone bottom-zone"></div>
-<div class="touch-zone left-zone"></div>
-<div class="touch-zone right-zone"></div>
+<div class="controls">
+
+  <button onclick="move('up')">⬆</button>
+
+  <div class="middle">
+    <button onclick="move('left')">⬅</button>
+    <button class="center-btn">●</button>
+    <button onclick="move('right')">➡</button>
+  </div>
+
+  <button onclick="move('down')">⬇</button>
+
+</div>
 
 <!-- MODAL -->
 <div id="levelModal">

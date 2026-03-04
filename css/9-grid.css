@@ -768,35 +768,31 @@ main,
   100% { transform: translateY(0px); }
 }
 
-.touch-zone {
-  position: fixed;
-  z-index: 500;
+.controls{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-top:25px;
+  gap:10px;
 }
 
-.top-zone {
-  top: 0;
-  left: 25%;
-  width: 50%;
-  height: 30%;
+.middle{
+  display:flex;
+  gap:15px;
 }
 
-.bottom-zone {
-  bottom: 0;
-  left: 25%;
-  width: 50%;
-  height: 30%;
+.controls button{
+  width:70px;
+  height:70px;
+  font-size:28px;
+  border:none;
+  border-radius:12px;
+  background:#2c3e50;
+  color:white;
+  cursor:pointer;
 }
 
-.left-zone {
-  left: 0;
-  top: 30%;
-  width: 30%;
-  height: 40%;
-}
-
-.right-zone {
-  right: 0;
-  top: 30%;
-  width: 30%;
-  height: 40%;
+.controls button:hover{
+  background:#34495e;
 }
